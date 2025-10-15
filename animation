@@ -1,0 +1,53 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class AnimationExample extends JPanel implements ActionListener {
+
+    private int x = 0;  // Ball X position
+    private int y = 100;  // Ball Y position
+    private int speed = 2;  // Ball speed
+
+    private Timer timer;
+
+    public AnimationExample() {
+        // Set timer to call actionPerformed every 10 milliseconds
+        timer = new Timer(10, this);
+        timer.start();
+    }
+
+    // Paint the ball
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        setBackground(Color.BLACK);
+        g.setColor(Color.RED);
+        g.fillOval(x, y, 30, 30);  // Draw ball
+    }
+
+    // Update ball position
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        x += speed;
+
+        // Bounce back if it hits the edges
+        if (x < 0 || x > getWidth() - 30) {
+            speed = -speed;
+        }
+
+        repaint();  // Call paintComponent again
+    }
+
+    // Create frame and run the animation
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Simple Java Animation");
+        AnimationExample animation = new AnimationExample();
+
+        frame.add(animation);
+        frame.setSize(600, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null); // Center the frame
+        frame.setVisible(true);
+    }
+}
